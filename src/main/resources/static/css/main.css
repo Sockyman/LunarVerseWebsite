@@ -1,0 +1,40 @@
+
+div {
+    font-family: "FF Mark W05",Arial,sans-serif;
+}
+
+/* Style for the tab bar */
+.tab-bar {
+    position: fixed;
+    background-color: #000f1a;
+    color: #ffffff;
+    display: flex;
+    /*justify-content: space-between;*/
+    align-items: center;
+    padding: 10px;
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin: 0;
+    width: 100%;
+    margin-left: 0;
+    box-sizing: border-box;
+    top: 0;
+    left: 0;
+    justify-content: flex-start;
+    height: 80px;
+}
+
+/* Style for individual tabs (adjust as needed) */
+.tab {
+    padding: 30px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin: 0;
+    margin-left: 0;
+}
+
+.page {
+    margin-top: 80px;
+    scroll-margin-top: 80px;
+}
