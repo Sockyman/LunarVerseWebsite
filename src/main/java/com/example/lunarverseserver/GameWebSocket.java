@@ -37,10 +37,9 @@ public class GameWebSocket extends TextWebSocketHandler {
 
         switch (json.getString("type")) {
             case "input":
-                JSONObject jo = new JSONObject()
-                    .put("type", "print")
-                    .put("message", json.getString("message") + " : )\r\n");
-                session.sendMessage(new TextMessage(jo.toString()));
+                synchronized (game) {
+                    game.handleInput(session, json.getString("message"));
+                }
                 break;
             default:
                 break;

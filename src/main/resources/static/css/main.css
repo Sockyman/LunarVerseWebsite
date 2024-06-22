@@ -1,6 +1,7 @@
 
-div {
-    font-family: "FF Mark W05",Arial,sans-serif;
+.fullpage {
+    font-family: "FF Mark W05",Arial,sans-serif; /* From valorant website */
+    background: #ece8e3;
 }
 
 /* Style for the tab bar */
@@ -8,6 +9,7 @@ div {
     position: fixed;
     background-color: #000f1a;
     color: #ffffff;
+    
     display: flex;
     /*justify-content: space-between;*/
     align-items: center;
@@ -32,9 +34,42 @@ div {
     cursor: pointer;
     margin: 0;
     margin-left: 0;
+    display: flex;
 }
 
 .page {
     margin-top: 80px;
     scroll-margin-top: 80px;
+}
+
+/* Style the tab buttons */
+.tab .tablinks {
+    flex: 1;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    white-space: nowrap; /* Prevent text from wrapping to multiple lines */
+    transition: background-color 0.3s; /* Add a smooth transition effect */
+    font-size: 14px;
+}
+
+.tablinks{
+    font-family: "FF Mark W05", Arial, sans-serif;
+    text-wrap: balance;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 10px;
+}
+
+/* Change background color of buttons on hover */
+.tablinks:hover {
+    background-color: #353535;
+    color: rgb(90, 236, 255);
+    border-radius: 10px; /* Rounded background on hover */
+    border-bottom: 2px solid rgb(90, 236, 255);
+}
+
+
+body{
+    background-color: #ECE8E3;
 }

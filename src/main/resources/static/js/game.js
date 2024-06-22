@@ -6,9 +6,11 @@ let acceptInput = true;
 
 function onload() {
     var baseTheme = {
-        foreground: '#F8F8F8',
-        background: '#2D2E2C',
-        selection: '#5DA5D533',
+        foreground: '#2D2E2C',
+        background: '#ffffff',
+        selectionBackground: '#000000aa',
+        selectionForeground: '#ffffffff',
+        cursor: '#2D2E2C',
         black: '#1E1E1D',
         brightBlack: '#262625',
         red: '#CE5C5C',
@@ -29,11 +31,15 @@ function onload() {
 
     terminal = new Terminal({
         fontFamily: '"Cascadia Code", Menlo, monospace',
-        theme: baseTheme
+        theme: baseTheme,
+        rows: 40,
+        cols: 90
     });
 
+    const wsaddress = "ws://" + location.host + "/ws";
+    console.log(wsaddress);
 
-    ws = new WebSocket("ws://localhost:8080/ws");
+    ws = new WebSocket(wsaddress);
     ws.onopen = (event) => {
         terminal.writeln("[SERVER] connected")
         console.log("Connected to websocket");
@@ -87,7 +93,7 @@ function handleMessage(message) {
     console.log(data);
     switch (data.type) {
         case 'print':
-            terminal.write(data.message);
+            print(data.message);
             break;
         case 'acceptInput':
             acceptInput = true;
@@ -96,6 +102,17 @@ function handleMessage(message) {
             console.log(`Invalid message type ${data.type}`);
             break;
     }
+}
+
+function print(message) {
+    let output = "";
+    for (c of message) {
+        if (c == '\n') {
+            output += '\r';
+        }
+        output += c;
+    }
+    terminal.write(output);
 }
 
 function sendMessage(type, value) {
