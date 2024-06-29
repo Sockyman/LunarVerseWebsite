@@ -1,0 +1,33 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="js/books.js"></script>
+</head>
+<body class="fullpage" onload="loadpage()">
+    <div class="tab-bar">
+        <div class="tab">
+            <img src="moon.png" alt="Logo" width= 50px height= 50px onclick="location.href = 'index.html'">
+            <div class="tablinks" onclick="location.href = 'game.html'">Play</div>
+            <div class="tablinks">Game Info</div>
+            <div class="tablinks">News</div>
+            <div class="tablinks">Socials</div>
+            <div class="tablinks">Tournaments</div>
+            <div class="tablinks" onclick="location.href = 'books.html'">Books</div>
+        </div>
+    </div>
+    <div class="page bookpage">
+        <div class="bookslist">
+            <a href="https://docs.google.com/document/d/1LBJVh-q700orOHkcc1qfzmOsFxVLZnyH3bJEGq-rx4k/view">View in google docs</a>
+            <a href="/books.html?book=Virtual Craftality">Virtual Craftality</a>
+            <a href="/books.html?book=Vir-2-ual Craftality">Vi-2-ual Craftality</a>
+        </div>
+        <object id="book" type="application/pdf" width="75%" height="850px" style="margin: 0 auto;">
+            <p>PDF could not load or an invalid filename was given.</p>
+        </object>
+    </div>
+</body>
+</html>

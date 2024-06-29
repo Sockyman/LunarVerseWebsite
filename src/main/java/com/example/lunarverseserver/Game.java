@@ -29,7 +29,7 @@ public class Game {
     }
 
     private void startGame() {
-        ProcessBuilder builder = new ProcessBuilder("java", appMainClass);
+        ProcessBuilder builder = new ProcessBuilder("java", appMainClass, "online");
         builder.directory(new File(appPath));
         builder.redirectError(Redirect.INHERIT);
         //builder.redirectInput(Redirect.INHERIT);

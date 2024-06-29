@@ -28,7 +28,7 @@
 
 /* Style for individual tabs (adjust as needed) */
 .tab {
-    padding: 30px;
+    padding: 0px;
     font-weight: bold;
     text-transform: uppercase;
     cursor: pointer;
@@ -40,6 +40,8 @@
 .page {
     margin-top: 80px;
     scroll-margin-top: 80px;
+    width: 100%;
+    height: 100%;
 }
 
 /* Style the tab buttons */
@@ -54,11 +56,12 @@
 }
 
 .tablinks{
-    font-family: "FF Mark W05", Arial, sans-serif;
     text-wrap: balance;
     font-weight: 600;
     font-size: 18px;
     line-height: 10px;
+    border-radius: 10px; /* Rounded background on hover */
+    border-bottom: 2px solid #000f1a;
 }
 
 /* Change background color of buttons on hover */
@@ -70,6 +73,29 @@
 }
 
 
-body{
+body {
     background-color: #ECE8E3;
+}
+
+.termcontainer {
+    display: flex;
+    flex-direction: row;
+}
+
+#mapTerminal {
+    border: 1px solid red;
+}
+
+#gameTerminal {
+    max-width: 50%;
+}
+
+.bookpage {
+    display: flex;
+    flex-direction: row;
+}
+
+.bookslist {
+    display: flex;
+    flex-direction: column;
 }

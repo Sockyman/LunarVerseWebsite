@@ -32,8 +32,9 @@ function onload() {
     terminal = new Terminal({
         fontFamily: '"Cascadia Code", Menlo, monospace',
         theme: baseTheme,
-        rows: 40,
-        cols: 90
+        rows: 56,
+        cols: 90,
+        fontSize: 11
     });
 
     const wsaddress = "ws://" + location.host + "/ws";
@@ -41,7 +42,7 @@ function onload() {
 
     ws = new WebSocket(wsaddress);
     ws.onopen = (event) => {
-        terminal.writeln("[SERVER] connected")
+        terminal.writeln("[SERVER] connected");
         console.log("Connected to websocket");
     };
 
@@ -50,7 +51,7 @@ function onload() {
         console.log("Websocket closed");
     };
 
-    terminal.open(document.getElementById("terminal"));
+    terminal.open(document.getElementById("gameTerminal"));
     terminal.writeln("[SERVER] trying to connect");
 
     terminal.onData(key => {
@@ -61,8 +62,8 @@ function onload() {
         switch (key) {
             case '\u007f':
                 if (terminal._core.buffer.x > minColumn) {
-                    terminal.write('\b \b');
                     if (command.length > 0) {
+                        terminal.write('\b \b');
                         command = command.slice(0, command.length - 1);
                     }
                 }
@@ -109,6 +110,9 @@ function print(message) {
     for (c of message) {
         if (c == '\n') {
             output += '\r';
+        } else if (/\p{Extended_Pictographic}/u.test(c)) {
+            // Ran if the character is an emoji
+            //c += ' ';
         }
         output += c;
     }
