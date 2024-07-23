@@ -5,7 +5,10 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.io.StringReader;
 import java.lang.ProcessBuilder.Redirect;
+import java.util.NoSuchElementException;
+import java.util.Scanner;
 
 import org.json.JSONObject;
 import org.springframework.web.socket.TextMessage;
@@ -29,7 +32,9 @@ public class Game {
     }
 
     private void startGame() {
-        ProcessBuilder builder = new ProcessBuilder("java", appMainClass, "online");
+        String jarFile = Game.class.getResource("/LunarVerse.jar").getPath();
+
+        ProcessBuilder builder = new ProcessBuilder("java", "-jar", jarFile, "online");
         builder.directory(new File(appPath));
         builder.redirectError(Redirect.INHERIT);
         //builder.redirectInput(Redirect.INHERIT);
@@ -122,6 +127,62 @@ public class Game {
                 send(peer, message);
             }
         }
+    }
+
+    boolean readingCommand = false;
+    String partialCommand = "";
+    public void handleGameOutput(String output) {
+        String sendBuffer = "";
+        for (char ch : output.toCharArray()) {
+            if (readingCommand) {
+                if (ch == '\n') {
+                    readingCommand = false;
+                    runCommand(partialCommand);
+                    partialCommand = "";
+                } else {
+                    partialCommand += ch;
+                }
+
+            } else if (ch == '\u0007') {
+                readingCommand = true;
+            } else {
+                sendBuffer += ch;
+            }
+        }
+
+        if (!sendBuffer.isEmpty()) {
+            this.sendAll(new JSONObject()
+                .put("type", "print")
+                .put("message", output)
+            );
+        }
+    }
+
+    private void runCommand(String command) {
+        Scanner scan = new Scanner(command);
+        try {
+            scan.next("\\[command\\]");
+            String commandType = scan.next();
+            switch (commandType) {
+                case "audioPlay":
+                case "audioStop":
+                {
+                    String file = scan.next();
+                    sendAll(new JSONObject()
+                        .put("type", commandType)
+                        .put("file", file)
+                    );
+                    break;
+                }
+                default:
+                    System.err.println("Invalid command type \'" + command + "\'");
+                    break;
+            }
+        } catch (NoSuchElementException ex) {
+            System.err.println("Invalid command syntax from \'" + command + "\'");
+        }
+
+        scan.close();
     }
 
     public void handleInput(WebSocketSession session, String input) {

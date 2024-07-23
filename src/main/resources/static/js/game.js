@@ -44,11 +44,13 @@ function onload() {
     ws.onopen = (event) => {
         terminal.writeln("[SERVER] connected");
         console.log("Connected to websocket");
+        stopAllAudio();
     };
 
     ws.onclose = (event) => {
         terminal.writeln("[SERVER] disconnected");
         console.log("Websocket closed");
+        stopAllAudio();
     };
 
     terminal.open(document.getElementById("gameTerminal"));
@@ -89,6 +91,34 @@ function onload() {
     };
 }
 
+
+let audioElements = {};
+
+function playAudio(file) {
+    if (file in audioElements) {
+        console.log(`Stoping sound ${file}`);
+        audioElements[file].pause();
+        audioElements[file].remove();
+    }
+    console.log(`Playing sound ${file}`);
+    audioElements[file] = new Audio('audio/' + file);
+    audioElements[file].play();
+}
+
+function stopAudio(file) {
+    if (file in audioElements) {
+        console.log(`Stoping sound ${file}`);
+        audioElements[file].pause();
+        audioElements[file].remove();
+    }
+}
+
+function stopAllAudio() {
+    for (file in audioElements) {
+        stopAudio(file);
+    }
+}
+
 function handleMessage(message) {
     let data = JSON.parse(message);
     console.log(data);
@@ -98,6 +128,12 @@ function handleMessage(message) {
             break;
         case 'acceptInput':
             acceptInput = true;
+            break;
+        case 'audioPlay':
+            playAudio(data.file);
+            break;
+        case 'audioStop':
+            stopAudio(data.file);
             break;
         default:
             console.log(`Invalid message type ${data.type}`);
